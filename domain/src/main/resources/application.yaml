@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/student-db
+  rabbitmq:
+    host: localhost
+    password: guest
+    username: guest
+    port: 5672
+    virtual-host: /
+
+server:
+  port: 8082
