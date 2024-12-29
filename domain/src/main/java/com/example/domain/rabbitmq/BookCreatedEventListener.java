@@ -1,7 +1,7 @@
 package com.example.domain.rabbitmq;
 
-import com.example.domain.domain.Student;
-import com.example.domain.repository.StudentRepository;
+import com.example.domain.domain.Book;
+import com.example.domain.repository.BookRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,19 +12,19 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class StudentEventListener {
+public class BookCreatedEventListener {
     private final ObjectMapper objectMapper;
-    private final StudentRepository studentRepository;
+    private final BookRepository bookRepository;
 
-    @RabbitListener(queues = "studentCreated")
+    @RabbitListener(queues = "bookCreated")
     public void listen(String massage) {
-        Student student;
+        Book book;
         try {
             System.out.println(massage);
-            student = objectMapper.readValue(massage, Student.class);
+            book = objectMapper.readValue(massage, Book.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        studentRepository.save(student);
+        bookRepository.save(book);
     }
 }

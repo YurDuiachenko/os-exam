@@ -6,13 +6,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "students")
+@Document(collection = "books")
 @Accessors(chain = true)
-public class Student {
+public class Book {
     @Id
     private String id;
-    private String firstName;
-    private String lastName;
-    private int age;
-    private String major;
+    private String name;
+    private String author;
+    private String genre;
+    private int year;
 }

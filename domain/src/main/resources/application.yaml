@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/student-db
+      uri: mongodb://localhost:27017/book-db
   rabbitmq:
     host: localhost
     password: guest

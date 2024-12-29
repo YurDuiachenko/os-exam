@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package book;
+
+service BookService {
+  rpc GetAllBooks (Empty) returns (BookList);
+  rpc GetBookById (BookRequest) returns (Book);
+}
+
+message BookRequest {
+  string id = 1;
+}
+
+message BookList {
+  repeated Book books = 1;
+}
+
+message Book {
+  string id = 1;
+  string name = 2;
+  string author = 3;
+  string genre = 4;
+  int32 year = 5;
+}
+
+message Empty {}
