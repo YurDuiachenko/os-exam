@@ -9,5 +9,11 @@ spring:
     port: 5672
     virtual-host: /
 
+rabbitmq:
+  queues:
+    student-created: bookCreated
+    student-updated: bookUpdated
+    student-deleted: bookDeleted
+
 server:
   port: 8082
