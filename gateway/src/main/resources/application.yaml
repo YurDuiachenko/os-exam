@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: gateway
+  rabbitmq:
+    host: localhost
+    password: guest
+    username: guest
+    port: 5672
+    virtual-host: /
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+rabbitmq:
+  queues:
+    student-created: bookCreated
+    student-updated: bookUpdated
+    student-deleted: bookDeleted
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+  metrics:
+    enable:
+      all: true
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+
+
+logging:
+  level:
+    org.springframework.web: INFO
+    io.micrometer.core: DEBUG
