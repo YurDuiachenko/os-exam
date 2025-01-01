@@ -115,7 +115,6 @@ services:
     volumes:
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./logstash/logs/application.log:/app/logs/application.log
-#      - ./gateway/logs/application.log:/app/logs/application.log
     depends_on:
       - elasticsearch
     ports:
