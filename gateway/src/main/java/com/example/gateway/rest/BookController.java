@@ -11,8 +11,10 @@ import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,15 +22,28 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class BookController {
+    @Value("${grpc.server.host}")
+    private String grpcHost;
+
+    @Value("${grpc.server.port}")
+    private int grpcPort;
+
     public static final String REDIS_KEY_BOOKS_ALL = "books::all";
 
-    private final ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
-            .usePlaintext()
-            .build();
-    private final BookServiceGrpc.BookServiceBlockingStub stub = BookServiceGrpc.newBlockingStub(channel);
+    private ManagedChannel channel;
+    private BookServiceGrpc.BookServiceBlockingStub stub;
+
     private final ObjectMapper objectMapper;
     private final RabbitTemplate rabbitTemplate;
     private final RedisOperations<BookDto> redisOperations;
+
+    @PostConstruct
+    private void init() {
+        this.channel = ManagedChannelBuilder.forAddress(grpcHost, grpcPort)
+                .usePlaintext()
+                .build();
+        this.stub = BookServiceGrpc.newBlockingStub(channel);
+    }
 
     @GetMapping("/book/all")
     public List<BookDto> getAllBooks() {
