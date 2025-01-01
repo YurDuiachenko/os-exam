@@ -33,32 +33,49 @@ services:
       - "15672:15672"
     restart: always
 
-#  gateway:
-##    build:
-##      context: ./gateway
-##      dockerfile: Dockerfile
-#    image: yuridiachenko/gateway:latest
-#    container_name: gateway
-#    depends_on:
-#      - mongodb
-#      - rabbitmq
-#      - redis
-#    ports:
-#      - "8080:8080"
-#    restart: always
-#
-#  domain:
-#    #    build:
-#    #      context: ./domain
-#    #      dockerfile: Dockerfile
-#    image: yuridiachenko/domain:latest
-#    container_name: domain
-#    ports:
-#      - "8082:8082"
-#      - "50051:50051"
-#    depends_on:
-#      - gateway
-#    restart: always
+  domain:
+    #    build:
+    #      context: ./domain
+    #      dockerfile: Dockerfile
+    image: yuridiachenko/domain:latest
+    pull_policy: always
+    container_name: domain
+    ports:
+      - "8082:8082"
+      - "50051:50051"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+      - GRPC_SERVER_PORT=50051
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - redis
+    restart: always
+
+  gateway:
+    #    build:
+    #      context: ./gateway
+    #      dockerfile: Dockerfile
+    image: yuridiachenko/gateway:latest
+    pull_policy: always
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logstash/logs/application.log:/app/logs/application.log
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - GRPC_SERVER_HOST=domain
+      - GRPC_SERVER_PORT=50051
+    depends_on:
+      - domain
+    restart: always
 
   prometheus:
     image: prom/prometheus:latest
@@ -67,8 +84,8 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
-#    depends_on:
-#      - gateway
+    depends_on:
+      - gateway
 
   grafana:
     image: grafana/grafana:latest
@@ -97,7 +114,8 @@ services:
     container_name: logstash
     volumes:
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./gateway/logs/application.log:/app/logs/application.log
+      - ./logstash/logs/application.log:/app/logs/application.log
+#      - ./gateway/logs/application.log:/app/logs/application.log
     depends_on:
       - elasticsearch
     ports:

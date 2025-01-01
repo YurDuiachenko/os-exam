@@ -1,13 +1,19 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/book-db
+      uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT}/book-db
+#      uri: mongodb://localhost:27017/book-db
   rabbitmq:
-    host: localhost
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
     password: guest
     username: guest
-    port: 5672
     virtual-host: /
+
+
+grpc:
+  server:
+    port: ${GRPC_SERVER_PORT}
 
 rabbitmq:
   queues:
