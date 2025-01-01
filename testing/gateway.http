@@ -1,0 +1,31 @@
+### Get all books
+GET http://localhost:8080/book/all
+Accept: application/json
+
+### Get book by id
+GET http://localhost:8080/book/6772fd71daae7a18f9e33094
+Accept: application/json
+
+### Add new book
+POST http://localhost:8080/book/new
+Content-Type: application/json
+
+{
+  "name": "Klen",
+  "author": "Esenin",
+  "genre": "Poem",
+  "year": 1919
+}
+
+### Update book
+PUT http://localhost:8080/book/update
+Content-Type: application/json
+
+{
+  "id": "6770eb9e3908e36169c83574",
+  "name": "Klen",
+  "year": 210
+}
+
+### Delete book by id
+DELETE http://localhost:8080/book/6772d9910130eb0b11cc0760

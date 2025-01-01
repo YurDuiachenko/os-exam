@@ -20,3 +20,5 @@
 2025-01-01 15:48:24 [http-nio-8080-exec-8] INFO  c.e.gateway.rest.BookController - GET request for getting all books
 2025-01-01 15:48:25 [http-nio-8080-exec-2] INFO  c.e.gateway.rest.BookController - GET request for getting all books
 2025-01-01 15:48:26 [http-nio-8080-exec-3] INFO  c.e.gateway.rest.BookController - GET request for getting all books
+2025-01-01 16:00:39 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-01-01 16:00:39 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
