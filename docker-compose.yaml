@@ -1,9 +1,9 @@
 version: '3.9'
 
 services:
-  mongodb:
+  mongo:
     image: mongo:7
-    container_name: mongodb
+    container_name: mongo
     ports:
       - "27017:27017"
 
@@ -11,13 +11,9 @@ services:
     image: mongo-express:latest
     container_name: mongo-express
     depends_on:
-      - mongodb
+      - mongo
     ports:
-      - "8090:8090"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: mongodb
+      - "8081:8081"
 
   redis:
     image: "redis:6.2-alpine"
@@ -46,11 +42,11 @@ services:
     environment:
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
-      - MONGODB_HOST=mongodb
+      - MONGODB_HOST=mongo
       - MONGODB_PORT=27017
       - GRPC_SERVER_PORT=50051
     depends_on:
-      - mongodb
+      - mongo
       - rabbitmq
       - redis
     restart: always
