@@ -97,7 +97,7 @@ services:
       - prometheus
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    image: elasticsearch:7.9.3
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
@@ -106,7 +106,7 @@ services:
       - "9200:9200"
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:7.10.1
+    image: logstash:7.9.3
     container_name: logstash
     volumes:
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
@@ -119,7 +119,7 @@ services:
       - "9600:9600"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
+    image: kibana:7.9.3
     container_name: kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
